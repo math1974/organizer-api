@@ -11,9 +11,23 @@ const schemas = {
 			born: z.string().refine(value => DateUtils.isValid(value, 'YYYY-MM-DD', true)),
 			profession: z.string().optional()
 		})
+	},
+	update: {
+		body: z.object({
+			name: z.string(),
+			born: z.string().refine(value => DateUtils.isValid(value, 'YYYY-MM-DD', true)),
+			profession: z.string().default(null).nullable()
+		})
+	},
+	find: {
+		params: z.object({
+            id: z.number().min(1)
+        })
 	}
 };
 
 export default {
-	create: schemas.create
+	create: schemas.create,
+	find: schemas.find,
+	update: schemas.update
 }

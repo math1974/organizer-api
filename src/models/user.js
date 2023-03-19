@@ -49,6 +49,12 @@ export default class User extends Model {
 				defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
 			}
 		}, {
+			defaultScope: {
+				where: {
+					is_deleted: false
+				},
+				attributes: ['id', 'name', 'email', 'username', 'born', 'profession']
+			},
 			timestamps: true,
 			sequelize,
 			modelName: 'user',

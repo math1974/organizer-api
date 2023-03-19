@@ -13,6 +13,7 @@ export default class UserRoutes extends BaseRoutes {
 
     setup() {
         this.router.post('/', SchemaValidator.validate(UserSchema.create), this.userController.create);
+        this.router.put('/', this.AuthMiddleware.isAuthorized, SchemaValidator.validate(UserSchema.update), this.userController.update);
 
         return this.router;
     }

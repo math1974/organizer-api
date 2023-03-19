@@ -41,7 +41,7 @@ export default class AuthUtils {
 	}
 
 	static getBearerToken(req) {
-		const [, token] = req?.headers?.authorization?.split(' ');
+		const [, token] = (req?.headers?.authorization || '').split(' ');
 
 		if (!token) {
 			return null
