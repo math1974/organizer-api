@@ -7,7 +7,7 @@ import { AuthUtils } from "@utils";
 describe("UserController", () => {
 	beforeEach(async () => {
 		await UserModel.sync({
-			force: true
+			force: true,
 		});
 	});
 
@@ -194,6 +194,72 @@ describe("UserController", () => {
 					"name",
 					userChanges.name
 				);
+			});
+		});
+	});
+
+	describe("#delete", () => {
+		describe("with invalid token", () => {
+			it("should return INVALID_TOKEN", async () => {
+				const { body } = await supertest(app)
+					.delete("/users")
+					.expect(HttpStatus.UNAUTHORIZED);
+
+				expect(body.message).toMatchInlineSnapshot(`"INVALID_TOKEN"`);
+			});
+		});
+
+		describe("with non-existent or deleted user id", () => {
+			it("should return USER_NOT_FOUND", async () => {
+				const userInfo = {
+					name: "test",
+					username: "test",
+					password: "12345678",
+					born: "2022-07-09",
+					email: "test@example.com",
+					is_deleted: true,
+				};
+
+				const userCreated = await UserModel.create(userInfo);
+
+				const token = AuthUtils.generateToken(userCreated.toJSON());
+
+				const { body } = await supertest(app)
+					.delete("/users")
+					.set("Authorization", `Bearer ${token}`)
+					.expect(HttpStatus.INTERNAL_SERVER_ERROR);
+
+				expect(body.message).toMatchInlineSnapshot(`"USER_NOT_FOUND"`);
+			});
+		});
+
+		describe("with user_id valid and not deleted", () => {
+			it("should return true", async () => {
+				const userInfo = {
+					name: "test",
+					username: "test",
+					password: "12345678",
+					born: "2022-07-09",
+					email: "test@example.com",
+				};
+
+				const userCreated = await UserModel.create(userInfo);
+
+				const token = AuthUtils.generateToken(userCreated.toJSON());
+
+				const { body: deleteUserResponse } = await supertest(app)
+					.delete("/users")
+					.set("Authorization", `Bearer ${token}`)
+					.expect(HttpStatus.OK);
+
+				expect(deleteUserResponse.data).toBe(true);
+
+				const { body } = await supertest(app)
+					.get("/users")
+					.set("Authorization", `Bearer ${token}`)
+					.expect(HttpStatus.INTERNAL_SERVER_ERROR);
+
+				expect(body.message).toMatchInlineSnapshot(`"USER_NOT_FOUND"`);
 			});
 		});
 	});

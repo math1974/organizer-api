@@ -41,4 +41,38 @@ export default class UserController extends BaseController {
 			this.sendError({ error, res });
 		}
 	}
+
+	async remove(req, res) {
+		try {
+			const filter = {
+				logged_user_id: req.auth.id
+			};
+
+			const response = await this.userService.remove(filter);
+
+			this.sendSuccess({
+				data: response,
+				res
+			});
+		} catch (error) {
+			this.sendError({ error, res });
+		}
+	}
+
+	async find(req, res) {
+		try {
+			const filter = {
+				id: req.auth.id
+			};
+
+			const response = await this.userService.find(filter);
+
+			this.sendSuccess({
+				data: response,
+				res
+			});
+		} catch (error) {
+			this.sendError({ error, res });
+		}
+	}
 }

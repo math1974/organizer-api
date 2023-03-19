@@ -14,6 +14,8 @@ export default class UserRoutes extends BaseRoutes {
     setup() {
         this.router.post('/', SchemaValidator.validate(UserSchema.create), this.userController.create);
         this.router.put('/', this.AuthMiddleware.isAuthorized, SchemaValidator.validate(UserSchema.update), this.userController.update);
+        this.router.delete('/', this.AuthMiddleware.isAuthorized, this.userController.remove);
+        this.router.get('/', this.AuthMiddleware.isAuthorized, this.userController.find);
 
         return this.router;
     }

@@ -101,4 +101,66 @@ describe("UserService", () => {
 			});
 		});
 	});
+
+	describe("#delete", () => {
+		describe("with user_id that does not exist", () => {
+			it("should return USER_NOT_FOUND", async () => {
+				const removeResponse = await service
+					.remove({
+						logged_user_id: 99999999
+					})
+					.catch((e) => e);
+
+				expect(removeResponse).toMatchInlineSnapshot(`[Error: USER_NOT_FOUND]`);
+			});
+		});
+
+		describe("with user that exists", () => {
+			it("should return true", async () => {
+				const userCreated = await service.create({
+					name: "John Doe",
+					username: "user1234",
+					email: "email@email.com",
+					password: "12345678",
+				});
+
+				const deleted = await service.remove({
+					logged_user_id: userCreated.id
+				});
+
+				expect(deleted).toBe(true);
+			});
+		});
+	});
+
+	describe("#find", () => {
+		describe("with user_id that does not exist", () => {
+			it("should return USER_NOT_FOUND", async () => {
+				const findResponse = await service
+					.find({
+						id: 99999999
+					})
+					.catch((e) => e);
+
+				expect(findResponse).toMatchInlineSnapshot(`[Error: USER_NOT_FOUND]`);
+			});
+		});
+
+		describe("with user that exists", () => {
+			it("should return the user", async () => {
+				const userCreated = await service.create({
+					name: "John Doe",
+					username: "user1234",
+					email: "email@email.com",
+					password: "12345678",
+				});
+
+				const userFound = await service.find({
+					id: userCreated.id
+				});
+
+				expect(userFound).toEqual(userCreated);
+			});
+		});
+	});
 });
