@@ -1,3 +1,6 @@
+import { UserModel } from "@models";
+import { AuthUtils } from "@utils";
+
 const buildReq = (overrides = {}) => {
 	return {
 		body: {},
@@ -25,9 +28,28 @@ const buildError = error => {
 	return error;
 }
 
+
+const generateUserAndToken = async (overrides = {}) => {
+	const userInfo = {
+		username: 'username',
+		password: 'password',
+		name: 'name',
+		email: 'email@email.com',
+		born: '2002-07-09',
+		...overrides
+	};
+
+	const user = await UserModel.create(userInfo);
+
+	const token = AuthUtils.generateToken(user);
+
+	return { user, token };
+}
+
 export default {
 	buildReq,
 	buildRes,
 	buildNext,
-	buildError
+	buildError,
+	generateUserAndToken
 }

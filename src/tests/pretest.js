@@ -1,4 +1,4 @@
-(async () => {
+const start = async () => {
 	const { default: Database } = require('@config/databases')
 
 	const dotenv = require('dotenv');
@@ -14,4 +14,6 @@
 	}
 
 	process.env.PORT = port;
-})()
+}
+
+start();

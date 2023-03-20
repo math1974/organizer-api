@@ -44,7 +44,9 @@ export default class Databases {
 					return;
 				}
 
-				this.models[Model.name] = Model.load(this._instance, Sequelize);
+				const modelName = Model.name.toLowerCase();
+
+				this.models[modelName] = Model.load(this._instance, Sequelize);
 			});
 	}
 

@@ -1,7 +1,7 @@
 import HttpStatus from "http-status";
 import app from "@test-utils/server";
 import supertest from "supertest";
-import { UserModel } from "models";
+import { UserModel } from "@models";
 import { AuthUtils } from "@utils";
 
 describe("UserController", () => {
@@ -98,6 +98,7 @@ describe("UserController", () => {
 				expect(body.message).toMatchInlineSnapshot(`"INVALID_TOKEN"`);
 			});
 		});
+
 		describe("with invalid data", () => {
 			it("should return INVALID_SCHEMA", async () => {
 				const userInfo = {

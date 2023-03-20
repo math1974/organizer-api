@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { AuthMiddleware } from 'middlewares';
+import { AuthMiddleware } from '@middlewares';
 
 class BaseRoutes {
 	constructor() {

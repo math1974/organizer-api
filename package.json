@@ -11,6 +11,7 @@
     "test:integration": "NODE_ENV=test jest ./src/test/integrations",
     "start:dev": "NODE_ENV=development nodemon --delay 500ms --inspect --exec babel-node index.js",
     "migration:dev": "NODE_ENV=development npx sequelize-cli db:migrate --env development",
+    "migration:undo:dev": "NODE_ENV=development npx sequelize-cli db:migrate:undo --env development",
     "migration:production": "NODE_ENV=production npx sequelize-cli db:migrate --env production",
     "migration:test": "NODE_ENV=test npx sequelize-cli db:migrate --env test"
   },
