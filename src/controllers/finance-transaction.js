@@ -31,6 +31,7 @@ export default class FinanceTransactionController extends BaseController {
 		try {
 			const options = {
 				filter: {
+					id: req.filter.id,
 					logged_user_id: req.auth.id
 				},
 				changes: req.data

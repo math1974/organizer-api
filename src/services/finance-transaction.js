@@ -19,11 +19,12 @@ export default class UserService {
 		}, {
 			method: ['searchByTitleOrDescription', filter.search_text]
 		}]).findAll({
-            where: {
-                user_id: filter.logged_user_id
-            },
-            useMaster: true
-        });
+			where: {
+				user_id: filter.logged_user_id
+			},
+			useMaster: true,
+			order: [['date', 'desc'], ['title', 'asc']]
+		});
 	}
 
 	async find(filter) {

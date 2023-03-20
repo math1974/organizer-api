@@ -7,7 +7,7 @@ export default class QueryUtils {
 		}
 
 		return {
-            [Op.iLike]: `%${text}%`
-        };
+			[Op.iLike]: `%${text}%`
+		};
 	}
 }

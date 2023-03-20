@@ -34,6 +34,11 @@ module.exports = {
                     key: 'id'
                 }
 			},
+			date: {
+				type: Sequelize.DATE,
+				allowNull: false,
+				defaultValue: Sequelize.literal('CURRENT_DATE')
+			},
 			is_deleted: {
 				type: Sequelize.BOOLEAN,
 				allowNull: false,

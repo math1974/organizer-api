@@ -1,4 +1,4 @@
-import { Model, Op } from 'sequelize';
+import { literal, Model, Op } from 'sequelize';
 
 import { QueryUtils } from '@utils';
 
@@ -32,6 +32,11 @@ export default class FinanceTransaction extends Model {
 					key: 'id'
 				}
 			},
+			date: {
+				type: DataTypes.DATE,
+				allowNull: false,
+				defaultValue: sequelize.literal('CURRENT_DATE')
+			},
 			is_deleted: {
 				type: DataTypes.BOOLEAN,
 				allowNull: false,
@@ -52,7 +57,7 @@ export default class FinanceTransaction extends Model {
 				where: {
 					is_deleted: false
 				},
-				attributes: ['id', 'value', 'type', 'title', 'description']
+				attributes: ['id', 'value', 'type', 'title', [literal('date - interval \'3 hour\''), 'date'], 'description']
 			},
 			timestamps: true,
 			sequelize,
